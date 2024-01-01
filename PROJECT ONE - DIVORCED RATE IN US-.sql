@@ -4,10 +4,6 @@ FROM census
 SELECT*
 FROM train
 
-SELECT*
-FROM census c
-JOIN train t
-ON c.fnlwgt = t.fnlwgt
 
 ---OUTPUT THE RATE OF DIVORCED AS COMPARED TO THE TOTAL POPULATION IN THE DATASET
 
@@ -50,7 +46,12 @@ WHERE race = 'black'
 SELECT 
     SUM(CASE WHEN race = 'white' THEN 1 ELSE 0 END) AS Total_whites,
     SUM(CASE WHEN race = 'black' THEN 1 ELSE 0 END) AS Total_black
-FROM census
+FROMÂ census
+---
+SELECT 
+    COUNT(CASE WHEN race = 'white' THEN 1 END) AS Total_whites,
+    COUNT(CASE WHEN race = 'black' THEN 1 END) AS Total_black
+FROMÂ census
 
 --OUTPUT TOTAL NUMBER OF DIVORCE BLACK AND WHITE INDIVIDUALS 
 SELECT COUNT(race) AS White_divorced
@@ -80,7 +81,7 @@ SELECT
 	COUNT(CASE WHEN race = 'black' THEN 1 END) AS Total_black,
 	COUNT(CASE WHEN race = 'black' AND marital_status = 'divorced' THEN 1 END) AS Total_Black_divorced,
 	(COUNT(CASE WHEN race = 'black' AND marital_status = 'divorced' THEN 1 END) * 100.0 / COUNT(CASE WHEN race = 'black' THEN 1 END)) AS Percentage_black_divorced
-FROM census;
+FROMÂ census;
 
 ---USING SUBQUERY
 SELECT *, Divorced_white *100/Total_white AS Percentage_white_divorced, Divorced_black*100/Total_black AS Percentage_black_divorced
@@ -129,7 +130,4 @@ WHERE education  NOT LIKE '%masters%''%doctorate%''%Bachelors%'
 
 ---The result shows that the level of education doesn't have inpact on marital life and could be regarded as an individual attribute 
 
-SELECT 
-    SUM(CASE WHEN race = 'white' THEN 1 ELSE 0 END) AS Total_whites,
-    SUM(CASE WHEN race = 'black' THEN 1 ELSE 0 END) AS Total_black
-FROM census
+
